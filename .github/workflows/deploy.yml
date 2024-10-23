@@ -27,6 +27,7 @@ jobs:
             mkdir /home/ubuntu/david.chane-yock-nam
           fi
           docker pull ${{ secrets.DOCKER_USERNAME }}/my_img:latest
-          docker rm RUN974 || true
+          docker stop RUN974 || true  # Stops the container if running
+          docker rm RUN974 || true  # Removes the container if it exists
           docker run -d -p 8974:8974 --name RUN974 ${{ secrets.DOCKER_USERNAME }}/my_img:latest
         EOF
