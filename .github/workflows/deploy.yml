@@ -26,7 +26,7 @@ jobs:
           if [ ! -d "/home/ubuntu/david.chane-yock-nam" ]; then
             mkdir /home/ubuntu/david.chane-yock-nam
           fi
-          docker rm RUN974 || true
           docker pull ${{ secrets.DOCKER_USERNAME }}/my_img:latest
+          docker rm RUN974 || true
           docker run -d -p 8974:8974 --name RUN974 ${{ secrets.DOCKER_USERNAME }}/my_img:latest
         EOF
