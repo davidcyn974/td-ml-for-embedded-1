@@ -9,8 +9,8 @@ jobs:
     - name : Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
     - name: Login to docker hub
-      run: docker login -u ${{ secrets.DOCKER_USERNAME }}
-      run: dckr_pat_H-n7-lSzd6eXDKQT84RE6tLOkwI
+      run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p dckr_pat_H-n7-lSzd6eXDKQT84RE6tLOkwI
+      #run: dckr_pat_H-n7-lSzd6eXDKQT84RE6tLOkwI
     - name: Build tout court
       run: docker build -t ${{ secrets.DOCKER_USERNAME }}/my_img:latest .
     - name: push l'image
