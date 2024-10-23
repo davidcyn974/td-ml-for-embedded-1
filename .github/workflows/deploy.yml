@@ -1,0 +1,30 @@
+name: ML OPS
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Set up pipeline
+      uses: actions/checkout@v4
+      uses: docker/setup-buildx-action@v2
+    - name: Login to docker hub
+      run: docker login -u ${{ secrets.DOCKER_USERNAME }}
+      run: dckr_pat_H-n7-lSzd6eXDKQT84RE6tLOkwI
+    - name: Build tout court
+      run: docker build -t ${{ secrets.DOCKER_USERNAME }}/my_img:latest .
+    - name: push l'image
+      run: docker push ${{ secrets.DOCKER_USERNAME }}/my_img:latest
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - name : Une horreur 
+      run: |
+        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }} -o StrictHostKeyChecking=no << 'EOF'
+          if [ ! -d "/home/ubuntu/david.chane-yock-nam" ]; then
+            mkdir /home/ubuntu/david.chane-yock-nam
+          fi
+          docker pull ${{ secrets.DOCKER_USERNAME }}/my_img:latest
+          docker run -d -p 8974:8974 --name RUN974 ${{ secrets.DOCKER_USERNAME }}/my_img:latest
+        EOF
